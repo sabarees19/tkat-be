@@ -25,7 +25,7 @@ RUN --mount=type=cache,id=pnmcache,target=/pnpm \
 COPY . .
 
 # Expose port (Render looks for this)
-EXPOSE 3000
+EXPOSE 3333
 
 # Define the default command to run the app
 # (Change this based on your app type)
