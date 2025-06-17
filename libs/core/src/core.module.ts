@@ -11,7 +11,7 @@ import { pinoConfig } from './pino-logger/pino-logger.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'env/.env',
+      envFilePath: '/etc/secrets/.env',
       validate: (env) => EnvSchema.parse(env),
       cache: true,
       expandVariables: true,
