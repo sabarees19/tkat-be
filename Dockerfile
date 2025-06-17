@@ -2,14 +2,15 @@ FROM node:20-bullseye-slim
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y build-essential python3 && npm i -g pnpm
+RUN apt-get update && apt-get install -y build-essential python3 && npm install -g pnpm
 
 COPY package*.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm build  # this will run nx build api
+RUN pnpm nx build api
 
-EXPOSE 3333  # or the port your app uses
-CMD ["pnpm", "start:prod"]
+EXPOSE 3000  # Informational — your app must actually bind to process.env.PORT
+
+CMD ["node", "dist/apps/api/main.js"]
