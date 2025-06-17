@@ -32,7 +32,9 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   const port = parseInt(envService.get('PORT'));
   console.log('port', port);
-  await app.listen(port);
+  await app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+  });
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
