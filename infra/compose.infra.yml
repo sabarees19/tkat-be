@@ -1,0 +1,79 @@
+version: "3.9"
+
+services:
+
+  traefik:
+    image: "traefik:v3.0"
+    container_name: "traefik"
+    restart: unless-stopped
+    networks:
+      - tkat-network
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.service=traefik"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      - "traefik.docker.network=tkat-network"
+
+  redis:
+    image: redis/redis-stack:7.2.0-v6
+    container_name: redis
+    restart: unless-stopped
+    environment:
+      # use 'default' as username and 'admin' as password
+      REDIS_ARGS: "--requirepass admin"
+    ports:
+      - '6379:6379'
+      - '8001'
+    networks:
+      - tkat-network
+    volumes:
+      - tkat-redis-volume:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.redis.rule=Host(`redis.localhost`)"
+      - "traefik.http.routers.redis.entrypoints=web"
+      - "traefik.http.services.redis.loadbalancer.server.port=6379"
+      - "traefik.http.routers.redis.service=redis"
+
+      - "traefik.http.routers.redisinsight.rule=Host(`redisinsight.localhost`)"
+      - "traefik.http.routers.redisinsight.entrypoints=web"
+      - "traefik.http.services.redisinsight.loadbalancer.server.port=8001"
+      - "traefik.http.routers.redisinsight.service=redisinsight"
+      - "traefik.docker.network=tkat-network"
+
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '8080'
+    networks:
+      - tkat-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dozzle.rule=Host(`dozzle.localhost`)"
+      - "traefik.http.routers.dozzle.entrypoints=web"
+      - "traefik.http.services.dozzle.loadbalancer.server.port=8080"
+      - "traefik.docker.network=tkat-network"
+
+networks:
+  tkat-network:
+    external: true
+
+volumes:
+  tkat-redis-volume:

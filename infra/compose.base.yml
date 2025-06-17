@@ -1,0 +1,13 @@
+# version: '3.9'
+
+services:
+  tkat-base:
+    restart: always
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/app
+      - tkat-node-modules:/app/node_modules
+    networks:
+      - tkat-network

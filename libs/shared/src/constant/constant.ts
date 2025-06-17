@@ -1,0 +1,4 @@
+export const constant = {
+  UTC_TIME_PATTERN: 'YYYY-MM-DDTHH:mm:ss.SSS',
+  REDIS_SESSION_STORE_CLIENT: 'REDIS_SESSION_STORE_CLIENT',
+};

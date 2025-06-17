@@ -1,0 +1,35 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "module": "commonjs",
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "lib": ["ES2022", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "strict": true,
+    "paths": {
+      "@tkat-backend/category": ["libs/category/src/index.ts"],
+      "@tkat-backend/client": ["libs/facilitator/client/src/index.ts"],
+      "@tkat-backend/core": ["libs/core/src/index.ts"],
+      "@tkat-backend/department": ["libs/department/src/index.ts"],
+      "@tkat-backend/permission": ["libs/permission/src/index.ts"],
+      "@tkat-backend/role": ["libs/role/src/index.ts"],
+      "@tkat-backend/session": ["libs/facilitator/session/src/index.ts"],
+      "@tkat-backend/shared": ["libs/shared/src/index.ts"],
+      "@tkat-backend/template": ["libs/template/src/index.ts"],
+      "@tkat-backend/ticket": ["libs/ticket/src/index.ts"],
+      "@tkat-backend/user": ["libs/user/src/index.ts"],
+      "@tkat-backend/utils": ["libs/utils/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

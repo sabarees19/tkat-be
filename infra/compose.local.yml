@@ -1,0 +1,31 @@
+# version: '3.9'
+
+services:
+
+  tkat-api:
+    container_name: tkat-api
+    extends:
+      file: compose.base.yml
+      service: tkat-base
+    command: >
+      sh -c "pnpm nx reset && pnpm run start"
+
+    environment:
+      - NODE_ENV=local
+    ports:
+      - '3333:3333' # API Entry port
+      - '9010:9669' # Server Debugging port
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tkat-api.rule=Host(`tkat-api.localhost`)"
+      - "traefik.http.routers.tkat-api.entrypoints=web"
+      - "traefik.http.routers.tkat-api.service=tkat-api"
+      - "traefik.http.services.tkat-api.loadbalancer.server.port=3000"
+      - "traefik.docker.network=tkat-network"
+
+networks:
+  tkat-network:
+    external: true
+
+volumes:
+  tkat-node-modules:
