@@ -34,7 +34,7 @@ export const redisSessionStoreProvider: FactoryProvider = {
       return redisClient as RedisClientType;
     } catch (error) {
       logger.error(`error connecting to redis for session: ${error}`);
-      return null;
+      throw error;
     }
   },
   inject: [EnvService],
