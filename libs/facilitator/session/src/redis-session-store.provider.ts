@@ -25,9 +25,13 @@ export const redisSessionStoreProvider: FactoryProvider = {
           ),
         },
       })
-        .on('error', (err) =>
-          logger.error(`Redis session Client Error: ${err}`)
-        )
+        .on('error', (err) => {
+          logger.log(process.env['REDIS_HOST']);
+          logger.log(process.env['REDIS_PORT']);
+          logger.log(process.env['REDIS_USERNAME']);
+          logger.log(process.env['REDIS_PASSWORD']);
+          logger.error(`Redis session Client Error: ${err}`);
+        })
         .on('ready', () => logger.debug(`Redis session Client Connected`));
 
       await redisClient.connect();
