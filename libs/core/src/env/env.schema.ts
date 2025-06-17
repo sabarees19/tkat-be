@@ -20,6 +20,7 @@ export const EnvSchema = z.object({
   REDIS_PORT: z.string(),
   REDIS_USERNAME: z.string(),
   REDIS_PASSWORD: z.string(),
+  REDIS_URL: z.string().optional(),
 
   AWS_ACCESS_KEY: z.string(),
   AWS_SECRET_KEY: z.string(),
