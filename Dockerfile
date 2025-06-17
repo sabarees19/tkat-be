@@ -1,33 +1,32 @@
-# Use alpine image for ligther images
+# Use alpine image for lighter images
 FROM node:20-bullseye-slim
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y build-essential python3
 
-# Install a few system dependencies
-RUN apt-get update
-RUN apt-get install -y build-essential python3
-RUN npm -g i pnpm
+# Install pnpm
+RUN npm install -g pnpm
 
+# Set working directory
 WORKDIR /app
 
-# Copy our package files as usual
-# pnp use pnpm-lock.json rather than package-lock.json
-COPY package*.json pnpm-lock.yaml /app/
+# Copy package files
+COPY package*.json pnpm-lock.yaml ./
 
-# Instruct pnpm to use store directory at /pnpm
-# And copy dependencies from store instead of symlinking them
-# This is required as cache mount will only be available
-# during build time
-# it's also possible to run commands such as
-#   pnpm config set store-dir /pnpm_store
-#   pnpm config set package-import-method copy 
-# or use .npmrc
+# Configure pnpm to work with Docker cache
 ENV NPM_CONFIG_STORE_DIR=/pnpm
 ENV NPM_CONFIG_PACKAGE_IMPORT_METHOD=copy
 
-# Mount pnpm cache at /pnpm (matching NPM_CONFIG_STORE_DIR)
-# And run pnpm install
+# Install dependencies using pnpm with cache
 RUN --mount=type=cache,id=pnmcache,target=/pnpm \
-  pnpm i --prefer-offline --frozen-lockfile
+  pnpm install --prefer-offline --frozen-lockfile
 
-# Copy remaining files
-COPY . /app
+# Copy rest of the app
+COPY . .
+
+# Expose port (Render looks for this)
+EXPOSE 3000
+
+# Define the default command to run the app
+# (Change this based on your app type)
+CMD ["pnpm", "start"]
