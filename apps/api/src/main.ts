@@ -36,6 +36,8 @@ async function bootstrap() {
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
+  Logger.log('envService.get(REDIS_URL)', envService.get('REDIS_URL'));
+  Logger.log('process.env[REDIS_URL]', process.env['REDIS_URL']);
 }
 
 bootstrap();
