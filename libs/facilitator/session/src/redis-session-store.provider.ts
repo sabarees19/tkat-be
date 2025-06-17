@@ -11,27 +11,13 @@ export const redisSessionStoreProvider: FactoryProvider = {
     logger.debug('connecting to redis for session');
 
     try {
-      console.log(envService.get('REDIS_URL'));
-      console.log(process.env['REDIS_URL']);
-      const redisClient =
-        // createClient({
-        //     username: envService.get('REDIS_USERNAME'),
-        //     password: envService.get('REDIS_PASSWORD'),
-        //     database: 0,
-        //     socket: {
-        //         reconnectStrategy: false,
-        //         host: envService.get('REDIS_HOST'),
-        //         port: parseInt(envService.get('REDIS_PORT')),
-        //     },
-        // })
-        createClient({
-          url: envService.get('REDIS_URL') || process.env['REDIS_URL'],
-        })
-          .on('error', (err) =>
-            logger.error(`Redis session Client Error: ${err}`)
-          )
-          .on('ready', () => logger.debug(`Redis session Client Connected`));
-
+      const redisClient = createClient({
+        url: envService.get('REDIS_URL'),
+      })
+        .on('error', (err) =>
+          logger.error(`Redis session Client Error: ${err}`)
+        )
+        .on('ready', () => logger.debug(`Redis session Client Connected`));
       await redisClient.connect();
       return redisClient as RedisClientType;
     } catch (error) {

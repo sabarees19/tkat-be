@@ -30,14 +30,11 @@ async function bootstrap() {
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const port = parseInt(envService.get('PORT')) || 3000;
-  console.log(port);
+  const port = parseInt(envService.get('PORT'));
   await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
-  Logger.log('envService.get(REDIS_URL)', envService.get('REDIS_URL'));
-  Logger.log('process.env[REDIS_URL]', process.env['REDIS_URL']);
 }
 
 bootstrap();
