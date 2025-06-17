@@ -11,6 +11,7 @@ COPY . .
 
 RUN pnpm nx build api
 
-EXPOSE 3000  # Informational — your app must actually bind to process.env.PORT
+# Informational — your app must actually bind to process.env.PORT
+EXPOSE 3000
 
 CMD ["node", "dist/apps/api/main.js"]
