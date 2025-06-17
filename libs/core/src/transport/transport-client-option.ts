@@ -5,10 +5,12 @@ export function getRedisTransportOption(envService: EnvService) {
   return {
     transport: Transport.REDIS,
     options: {
-      host: envService.get('REDIS_HOST'),
-      port: parseInt(envService.get('REDIS_PORT')),
-      username: envService.get('REDIS_USERNAME'),
-      password: envService.get('REDIS_PASSWORD'),
+      host: process.env['REDIS_HOST'] || envService.get('REDIS_HOST'),
+      port: parseInt(process.env['REDIS_PORT'] || envService.get('REDIS_PORT')),
+      username:
+        process.env['REDIS_USERNAME'] || envService.get('REDIS_USERNAME'),
+      password:
+        process.env['REDIS_PASSWORD'] || envService.get('REDIS_PASSWORD'),
     },
   } as ClientOptions;
 }
